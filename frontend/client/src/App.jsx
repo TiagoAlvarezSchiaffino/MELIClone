@@ -9,10 +9,12 @@ import DeliveryPoint from './pages/payments/DeliveryPoint'
 import PayMethod from './pages/payments/PayMethod'
 import PayConfirmed from './pages/payments/PayConfirmed'
 import Footer from './components/Footer/Footer'
+import NavBar from './components/Navbar/Navbar'
 
 function App() {
   return (
     <>
+    <NavBar />
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='product-detail/:id' element={<ProductDetail/>} />
