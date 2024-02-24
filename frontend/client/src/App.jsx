@@ -8,6 +8,7 @@ import HomeDelivery from './pages/payments/HomeDelivery'
 import DeliveryPoint from './pages/payments/DeliveryPoint'
 import PayMethod from './pages/payments/PayMethod'
 import PayConfirmed from './pages/payments/PayConfirmed'
+import Footer from './components/Footer/Footer'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path='/payment' element={<Payment/>} />
       <Route path="/pay-confirmed" element={<PayConfirmed/>} />
     </Routes>
+    <Footer />
     </>
   )
 }
