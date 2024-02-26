@@ -7,12 +7,12 @@ const NavbarPayment = () => {
 
   return (
     <>
-      <div className="bg-secondary h-[103px] flex items-center">
+      <div className="bg-secondary h-[103px] sm:h-[56px] flex items-center">
         <nav className="flex w-full mx-6 sm:mx-24">
           {
             isMobile
               ? <div className="text-center w-full">
-                <p className="text-2xl font-light">{/*title*/}</p>
+                <p className="text-2xl font-light p-10">{/*title*/}</p>
               </div>
 
               : <div className="flex items-center justify-between w-full">
