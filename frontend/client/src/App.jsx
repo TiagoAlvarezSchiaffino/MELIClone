@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
-import ProductDetail from './pages/ProductDetail'
+import ProductDetail from './pages/productDetail/ProductDetail'
 import Payment from './pages/Payment'
 import Warranty from './pages/payments/Warranty'
 import DeliveryType from './pages/payments/DeliveryType'
@@ -9,7 +9,7 @@ import DeliveryPoint from './pages/payments/DeliveryPoint'
 import PayMethod from './pages/payments/PayMethod'
 import PayConfirmed from './pages/payments/PayConfirmed'
 import Footer from './components/Footer/Footer'
-import NavBar from './components/Navbar/Navbar'
+import NavBar from './components/NavBar/NavBar'
 
 function App() {
   return (
