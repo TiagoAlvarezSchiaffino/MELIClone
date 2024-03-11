@@ -10,6 +10,7 @@ import PayMethod from './pages/payments/PayMethod'
 import PayConfirmed from './pages/payments/PayConfirmed'
 import Footer from './components/Footer/Footer'
 import NavBar from './components/NavBar/NavBar'
+import Purchases from './pages/payments/Purchases'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/pay-method" element={<PayMethod/>} />
       <Route path='/payment' element={<Payment/>} />
       <Route path="/pay-confirmed" element={<PayConfirmed/>} />
+      <Route path="/purchases" element={<Purchases/>} />
     </Routes>
     <Footer />
     </>
