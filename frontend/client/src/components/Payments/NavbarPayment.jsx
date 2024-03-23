@@ -1,5 +1,6 @@
 // import logo from "../../assets/img/logo-payment.png";
 import useMediaQuery from '../../hooks/useMediaQuery.js'
+import { BsArrowLeft } from 'react-icons/bs';
 
 const NavbarPayment = () => {
 
@@ -10,8 +11,9 @@ const NavbarPayment = () => {
       <div className="bg-secondary h-[103px] sm:h-[56px] flex items-center">
         <nav className="flex w-full mx-6 sm:mx-24">
           {
-            isMobile
-              ? <div className="text-center w-full">
+            isMobile ?
+              <div className="text-center w-full flex items-center justify-center">
+                <BsArrowLeft size="25px" />
                 <p className="text-2xl font-light p-10">{/*title*/}</p>
               </div>
 
