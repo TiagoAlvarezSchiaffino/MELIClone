@@ -1,0 +1,92 @@
+[
+    {
+      "id": 1,
+      "name": "Autos, Motos y otros",
+      "image": "auto.svg"
+    },
+    {
+      "id": 2,
+      "name": "Celulares y Teléfonos",
+      "image": "mobile-camera.svg"
+    },
+    {
+      "id": 3,
+      "name": "Computación",
+      "image": "computacion.svg"
+    },
+    {
+      "id": 4,
+      "name": "Electrónica, Audio y Video",
+      "image": "audio_electronica.svg"
+    },
+    {
+      "id": 5,
+      "name": "Electrodomésticos y Aires Ac.",
+      "image": "electrodomesticos_aires.svg"
+    },
+    {
+      "id": 6,
+      "name": "Ropa y Accesorios",
+      "image": "ropa.svg"
+    },
+    {
+      "id": 7,
+      "name": "Deportes y Fitness",
+      "image": "deporte.svg"
+    },
+    {
+      "id": 8,
+      "name": "Hogar, Muebles y Jardín",
+      "image": "mueble.svg"
+    },
+    {
+      "id": 9,
+      "name": "Inmuebles",
+      "image": "inmueble_hogar.svg"
+    },
+    {
+      "id": 10,
+      "name": "Accesorios para Vehículos",
+      "image": "accesorio_vehiculo.svg"
+    },
+    {
+      "id": 11,
+      "name": "Belleza y Cuidado Personal",
+      "image": "articulo_belleza.svg"
+    },
+    {
+      "id": 12,
+      "name": "Consolas y Videojuegos",
+      "image": "videojuegos.svg"
+    },
+    {
+      "id": 13,
+      "name": "Juegos y Juguetes",
+      "image": "juguetes.svg"
+    },
+    {
+      "id": 14,
+      "name": "Alimentos y bebidas",
+      "image": "alimentos.svg"
+    },
+    {
+      "id": 15,
+      "name": "Luciano, Argentina",
+      "image": "bicycle.svg"
+    },
+    {
+      "id": 16,
+      "name": "Laura, Uruguay",
+      "image": "bicycle.svg"
+    },
+    {
+      "id": 17,
+      "name": "María, Perú",
+      "image": "bicycle.svg"
+    },
+    {
+      "id": 18,
+      "name": "Ernesto, Venezuela",
+      "image": "bicycle.svg"
+    }
+  ]
