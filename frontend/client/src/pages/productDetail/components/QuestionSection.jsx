@@ -1,19 +1,20 @@
 import { AiOutlineSearch, AiOutlineQuestionCircle } from "react-icons/ai";
 import { RxCornerBottomLeft } from "react-icons/rx";
+import { BsChevronCompactDown } from "react-icons/bs";
 import { useState } from "react";
 const QuestionSection = () => {
   const question = [
     {
-      pregunta: "¿cómo te llamas?",
-      respuesta: "Miguel"
+      pregunta: "***",
+      respuesta: "***"
     },
     {
-      pregunta: "¿De dónde eres?",
-      respuesta: "Argentina"
+      pregunta: "***",
+      respuesta: "***"
     },
     {
-      pregunta: "¿Qué comiste?",
-      respuesta: "Queti"
+      pregunta: "***",
+      respuesta: "***"
     }
   ];
   const [moreQ, setMoreQ] = useState(false);
@@ -73,9 +74,10 @@ const QuestionSection = () => {
           onClick={() => {
             changeQ();
           }}
-          className="text-ligthblue text-xl my-3"
+          className="text-ligthblue text-xl my-3 flex items-center"
         >
           <p>Ver {!moreQ ? question.length - 1 + " preguntas más" : "Menos"}</p>
+          <BsChevronCompactDown className={`mx-2 ${moreQ && "rotate-180"}`}/>
         </button>
       </div>
       <div className="bg-blue-100 text-ligthblue text-2xl w-5/12 my-3 flex justify-center items-center rounded-md">
