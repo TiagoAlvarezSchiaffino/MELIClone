@@ -6,8 +6,8 @@ const ProductDetailPayment = ({ coupon, notification }) => {
   return (
     <>
       {!isMobile ? (
-        <aside className='bg-[#F5F5F5] font-light text-[#333333] w-full max-w-[400px] flex flex-col items-center mx-24 lg:mr-14 lg:ml-0 sm:mb-8 sm:pb-12 lg:mb-0 lg:pb-0'>
-          <div className="sticky top-0">
+        <aside className="bg-[#F5F5F5] font-light text-[#333333] w-full max-w-[400px] flex flex-col items-center mx-24 lg:mr-14 lg:ml-0 sm:mb-8 sm:pb-12 lg:mb-0 lg:pb-0">
+          <div className={`divide-y divide-slate-200 ${!notification && "sticky top-0"}`}>
             <div className="flex justify-center items-center flex-col mt-12 w-[330px]">
               <img
                 src="https://www.cetrogar.com.ar/media/catalog/product/s/m/sm-a546_galaxy-a54-5g_awesome-graphite_front.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=&width=&canvas=:"
@@ -20,16 +20,19 @@ const ProductDetailPayment = ({ coupon, notification }) => {
               <span className="text-sm">Cantidad: 1</span>
             </div>
 
-            <div className={`flex justify-between items-center w-[330px] mt-8 gap-48 relative ${coupon && 'pb-7'}`}>
+            <div
+              className={`flex justify-between items-center w-[330px] mt-8 gap-48 relative ${
+                coupon && "pb-7"
+              }`}
+            >
               <div>
-                <p className='mt-4 font-normal'>Producto</p>
-                <p className='mt-4 font-normal'>Envío</p>
-                {
-                  coupon &&
-                  <div className='absolute top-20 p-1'>
-                    <p className='text-base text-ligthblue'>Ingresar código de cupón</p>
+                <p className="mt-4 font-normal">Producto</p>
+                <p className="mt-4 font-normal">Envío</p>
+                {coupon && (
+                  <div className="absolute top-20 p-1">
+                    <p className="text-base text-ligthblue">Ingresar código de cupón</p>
                   </div>
-                }
+                )}
               </div>
               <div>
                 <p className='mt-4 font-normal'>$ ******</p>
@@ -44,22 +47,26 @@ const ProductDetailPayment = ({ coupon, notification }) => {
           </div>
 
           {
-            notification &&
+            notification && (
             <div className='flex flex-col items-center justify-center mt-10 gap-8'>
               <div className='flex items-center gap-2'>
                 <input type='checkbox' name='notification' id='notification' className='cursor-pointer' />
-                <label htmlFor='notification' className='text-xs leading-5'>Mantenete al día recibiendo notificaciones por<br />WhatsApp y SMS.</label>
+                <label htmlFor="notification" className="text-xs leading-5">
+                  Mantenete al día recibiendo notificaciones por
+                  <br />
+                  WhatsApp y SMS.
+                </label>
               </div>
               <div>
                 <p className='text-xs text-[#737373]'>Conocé nuestros <span className='text-ligthblue'>avisos legales</span></p>
               </div>
-              <div>
+              <div className='lg:pb-10'>
                 <button className='w-[316px] h-[48px] text-white rounded-md bg-ligthblue font-medium'>
                   Confirmar Compra
                 </button>
               </div>
             </div>
-          }
+          )}
         </aside>
       ) : (
         <div
@@ -67,6 +74,13 @@ const ProductDetailPayment = ({ coupon, notification }) => {
           style={{ boxShadow: '0px -6px 6px -2px rgba(0, 0, 0, 0.1)' }}>
           <p className='mt-4 text-[#666666]'>Pagás</p>
           <p className='mt-4 text-[#333333]'>$ ******</p>
+          {isMobile && notification && (
+            <div>
+              <button className="w-[188px] h-[48px] text-white rounded-md bg-ligthblue font-medium">
+                Confirmar Compra
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
