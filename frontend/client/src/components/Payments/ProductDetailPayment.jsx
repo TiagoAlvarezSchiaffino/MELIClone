@@ -1,6 +1,8 @@
 import useMediaQuery from '../../hooks/useMediaQuery.js'
+import { useNavigate } from 'react-router-dom'
 
 const ProductDetailPayment = ({ coupon, notification }) => {
+  const navigate = useNavigate()
   const isMobile = useMediaQuery('(max-width: 640px)')
 
   return (
@@ -61,7 +63,10 @@ const ProductDetailPayment = ({ coupon, notification }) => {
                 <p className='text-xs text-[#737373]'>Conocé nuestros <span className='text-ligthblue'>avisos legales</span></p>
               </div>
               <div className='lg:pb-10'>
-                <button className='w-[316px] h-[48px] text-white rounded-md bg-ligthblue font-medium'>
+                <button
+                  onClick={() => navigate("/pay/purchases")}
+                  className="w-[316px] h-[48px] text-white rounded-md bg-ligthblue font-medium"
+                >
                   Confirmar Compra
                 </button>
               </div>
@@ -76,7 +81,10 @@ const ProductDetailPayment = ({ coupon, notification }) => {
           <p className='mt-4 text-[#333333]'>$ ******</p>
           {isMobile && notification && (
             <div>
-              <button className="w-[188px] h-[48px] text-white rounded-md bg-ligthblue font-medium">
+              <button
+                onClick={() => navigate("/pay/purchases")}
+                className="w-[188px] h-[48px] text-white rounded-md bg-ligthblue font-medium"
+              >
                 Confirmar Compra
               </button>
             </div>
