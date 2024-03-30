@@ -8,7 +8,7 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { FiShoppingCart } from "react-icons/fi";
 
 const NavbarSearch = ({ openMenuMobile, setOpenMenuMobile }) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("")
 
   return (
     <div className="flex gap-3 justify-between items-center w-full sm:gap-9">

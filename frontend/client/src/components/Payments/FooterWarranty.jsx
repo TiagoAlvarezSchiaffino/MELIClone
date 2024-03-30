@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom"
+
 const FooterWarranty = () => {
   const navigate = useNavigate()
+  
   return (
     <div className=" bg-white flex flex-col text-center py-3 gap-2 md:flex-row justify-between items-center sm:h-[80px] px-5">
       <p className=" text-[#504A4A] font-[500] text-[12px]">
