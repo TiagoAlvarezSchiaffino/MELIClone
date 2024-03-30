@@ -9,7 +9,7 @@ const CardItem = ({ children, margin, bg, flex }) => {
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
-export default CardItem;
+export default CardItem
