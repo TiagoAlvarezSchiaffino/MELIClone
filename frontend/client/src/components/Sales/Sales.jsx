@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../Products/ProductCard/ProductCard";
+import ProductCard from "../Products/ProductCard";
 import FastSale from "./FastSale/FastSale";
 
 const listSales = new Array(5).fill(null)

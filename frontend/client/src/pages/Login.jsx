@@ -1,23 +1,61 @@
-import { useState } from "react";
+import { useState, useState } from "react";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import LoginNavbar from "../components/Login/LoginNavbar";
 import LoginFooter from "../components/Login/LoginFooter";
 import ReportProblem from "../components/Login/ReportProblem";
 import account from "../assets/icons/account.png";
+import { postRequestLogin } from "../services/httpRequest";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../store/state/authSlice";
+import { setLocalStorage } from "../utils/LocalStorageFunctions";
 
 const Login = () => {
-  const [isUser, setIsUser] = useState(false);
+  const [isUser, setIsUser] = useState(false)
+  const [email, setEmail] = useState("")
+  const [isEmailValid, setIsEmailValid] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const dispatch = useDispatch()
 
   const formik = useFormik({
     initialValues: {
-      user: "",
+      email: "",
       password: ""
     },
+    validationSchema: Yup.object({
+      email: Yup.string().email("El Email ser un formato valido").required("Es requerido")
+    }),
     onSubmit: (values, { setErrors }) => {
-      console.log(values)
+      setEmail(values.email)
       setIsUser(true)
+      if (values.password) {
+        setIsLoading(true)
+        postRequestLogin(values, "/auth/login")
+          .then(res => {
+            dispatch(setLogin({ token: res.token, user: res.user }))
+            const authInStorage = { token: res.token, user: res.user }
+            setLocalStorage("auth", authInStorage)
+            setIsLoading(false)
+          })
+          .catch(err => {
+            alert("Credenciales Invalidas")
+            setIsLoading(false)
+            console.log(err)
+          })
+      }
     }
   })
+
+  useEffect(() => {
+    setIsEmailValid(formik.errors.email ? true : false)
+  }, [formik.errors.email])
+
+  const changeAcount = () => {
+    setEmail("")
+    setIsUser(false)
+    formik.values.email = ""
+  }
 
   return (
     <>
@@ -29,7 +67,8 @@ const Login = () => {
             <h2 className="font-medium text-3xl w-full">
               {isUser ? (
                 <>
-                  ¡Hola, Name! Ingresá tu <br className="hidden lg:block" />
+                  ¡Hola, {email.split("@")[0].toString().toUpperCase()}! Ingresá tu{" "}
+                  <br className="hidden lg:block" />
                   contraseña de <br className="hidden lg:block" />
                   Mercado Libre
                 </>
@@ -48,8 +87,10 @@ const Login = () => {
                   <img src={account} alt="Icono de persona" />
                 </div>
                 <div className="flex flex-col text-[11px]">
-                  <p>correo@gmail.com</p>
-                  <p className="text-ligthblue">Cambiar cuenta</p>
+                  <p>{email}</p>
+                  <p className="text-ligthblue cursor-pointer" onClick={changeAcount}>
+                    Cambiar cuenta
+                  </p>
                 </div>
               </div>
             )}
@@ -62,30 +103,48 @@ const Login = () => {
               <div className="w-full lg:max-w-[489px] h-[290px] lg:h-[248px] border border-solid border-slate-200 rounded-md">
                 <div className="p-10">
                   <div>
-                    <label htmlFor={isUser ? "password" : "user"} className="text-sm">
+                    <label htmlFor={isUser ? "password" : "email"} className="text-sm">
                       {isUser ? "Contraseña" : "E‑mail, teléfono o usuario"}
                     </label>
                     <input
                       type={isUser ? "password" : "text"}
-                      name={isUser ? "password" : "user"}
-                      id={isUser ? "password" : "user"}
-                      value={isUser ? formik.values.password : formik.values.user}
+                      name={isUser ? "password" : "email"}
+                      id={isUser ? "password" : "email"}
+                      value={isUser ? formik.values.password : formik.values.email}
                       onChange={formik.handleChange}
-                      className="w-full lg:w-[408px] h-[48px] p-5 rounded-md border focus:outline-none focus:border-2 border-[#bfbfbf] focus:border-ligthblue"
+                      className={`w-full lg:w-[408px] h-[48px] p-5 rounded-md border focus:outline-none focus:border-2 border-[#bfbfbf] focus:border-ligthblue ${
+                        formik.errors.email !== undefined
+                          ? "border-red focus:border-red"
+                          : "border-[#bfbfbf] focus:border-ligthblue"
+                      }`}
+                      error={formik.errors.email}
                     />
+                    {formik.errors.email !== undefined && (
+                      <span className="text-xs text-[#0000008c] p-2 text-red">
+                        {formik.errors.email}
+                      </span>
+                    )}
                   </div>
                   {isUser ? (
                     <div className="flex flex-col lg:flex-row items-center gap-2 mt-10">
-                      <input
+                      <button
                         type="submit"
-                        value="Iniciar sesión"
                         className={`w-full lg:w-[169px] h-[48px] text-[15px] rounded-md font-medium ${
-                          formik.values.password.length < 1
+                          formik.values.password.length < 4
                             ? "bg-[#E5E5E5] text-[#B3B9C3]"
-                            : "bg-ligthblue text-white cursor-pointer"
+                            : "bg-ligthblue text-white"
                         }`}
-                        disabled={formik.values.password.length < 1 ? true : false}
-                      />
+                        disabled={formik.values.password.length < 4 ? true : false}
+                      >
+                        {isLoading ? (
+                          <div className="flex items-center justify-center">
+                            <div className="border-2 border-white border-t-ligthblue rounded-full w-5 h-5 animate-spin"></div>
+                          </div>
+                        ) : (
+                          "Iniciar Sesión"
+                        )}
+                      </button>
+
                       <button className="w-full lg:w-[230px] h-[48px] text-ligthblue text-[15px] rounded-md bg-[#4189E626] font-medium">
                         ¿Olvidaste tu contraseña?
                       </button>
@@ -96,11 +155,11 @@ const Login = () => {
                         type="submit"
                         value="Continuar"
                         className={`w-full lg:w-[119px] h-[48px] text-[15px] rounded-md font-medium ${
-                          formik.values.user.length < 1
+                          isEmailValid
                             ? "bg-[#E5E5E5] text-[#B3B9C3]"
                             : "bg-ligthblue text-white cursor-pointer"
                         }`}
-                        disabled={formik.values.user.length < 1 ? true : false}
+                        disabled={isEmailValid}
                       />
                       <button className="w-full lg:w-[119px] h-[48px] text-ligthblue text-[15px] rounded-md bg-transparent font-medium">
                         Crear Cuenta

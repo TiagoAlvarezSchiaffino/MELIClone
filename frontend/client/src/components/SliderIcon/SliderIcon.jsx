@@ -5,25 +5,25 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 
-import style from "./slider.module.css";
+import style from "./Slider.module.css";
 
 import { Grid, Pagination } from "swiper";
 
 import { TiChevronRight } from "react-icons/ti";
 import { TiChevronLeft } from "react-icons/ti";
 import getCard from "../../utils/card.json";
-import PopularCategories from "../PopularCategorie/PopularCategories.jsx";
+import PopularCategories from "../PopularCategories/PopularCategories.jsx";
 
 const SliderIcon = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   const handleMouseOver = () => {
-    setIsHovered(true);
-  };
+    setIsHovered(true)
+  }
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+    setIsHovered(false)
+  }
   return (
     <div className="w-full" onMouseLeave={handleMouseLeave}>
       <Swiper
@@ -92,11 +92,11 @@ const SliderIcon = () => {
         )}
       </Swiper>
     </div>
-  );
-};
+  )
+}
 
 const SlideNextButton = () => {
-  const swiper = useSwiper();
+  const swiper = useSwiper()
 
   return (
     <button
@@ -105,8 +105,8 @@ const SlideNextButton = () => {
     >
       <TiChevronRight className=" text-[#4695fd] hover:text-[#4695fd] text-xl" />
     </button>
-  );
-};
+  )
+}
 
 const SlidePrevButton = () => {
   const swiper = useSwiper();
@@ -118,7 +118,7 @@ const SlidePrevButton = () => {
     >
       <TiChevronLeft className=" text-[#4695fd] hover:text-[#4695fd] text-xl" />
     </button>
-  );
-};
+  )
+}
 
 export default SliderIcon

@@ -1,6 +1,6 @@
 import NavbarPayment from '../../components/Payments/NavbarPayment'
 import ProductDetailPayment from '../../components/Payments/ProductDetailPayment'
-import FormNewAdress from '../../components/Payments/FormNewAdress'
+import FormNewAdress from '../../components/Payments/FormNewAddress'
 
 const HomeDelivery = () => {
   return (

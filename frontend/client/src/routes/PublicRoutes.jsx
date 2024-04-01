@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
-import ProductDetail from "../pages/ProductDetail";
-import Navbar from "../components/Navbar/Navbar";
+import ProductDetail from "../pages/productDetail/ProductDetail";
+import Navbar from "../components/NavBar/NavBar";
 
 const PublicRoutes = () => {
   return (
