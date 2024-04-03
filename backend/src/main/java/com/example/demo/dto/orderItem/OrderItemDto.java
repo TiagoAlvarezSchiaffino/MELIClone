@@ -17,4 +17,5 @@ public class OrderItemDto {
         //private OrderDto order;
         private int quantity;
 
+        private int order_id;
     }

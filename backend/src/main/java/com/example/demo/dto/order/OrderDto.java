@@ -7,9 +7,7 @@ import com.example.demo.dto.orderStatus.OrderStatusDto;
 import com.example.demo.dto.shippingMethod.ShippingMethodDto;
 import com.example.demo.dto.user.UserRegisterDto;
 import lombok.*;
-import  com.example.demo.dto.user.UserDto;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 
