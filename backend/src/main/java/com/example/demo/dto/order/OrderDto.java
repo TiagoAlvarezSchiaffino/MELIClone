@@ -6,6 +6,7 @@ import com.example.demo.dto.orderItem.OrderItemDto;
 import com.example.demo.dto.orderStatus.OrderStatusDto;
 import com.example.demo.dto.shippingMethod.ShippingMethodDto;
 import com.example.demo.dto.user.UserRegisterDto;
+import com.example.demo.model.entity.UserReview;
 import lombok.*;
 import java.util.Date;
 import java.util.Set;
@@ -27,6 +28,7 @@ public class OrderDto {
     private double orderTotal;
     private ShippingMethodDto shippingMethod;
     private OrderStatusDto orderStatus;
-
     private Set<OrderItemDto> items;
+    private Set<UserReview> reviews;
+    
 }
