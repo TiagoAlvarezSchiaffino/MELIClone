@@ -4,6 +4,7 @@ import com.example.demo.config.jwt.JwtService;
 import com.example.demo.dto.token.TokenDto;
 import com.example.demo.dto.user.UserLoginDto;
 import com.example.demo.dto.user.UserRegisterDto;
+import com.example.demo.dto.user.UserTokenDto;
 import com.example.demo.model.enums.Role;
 import com.example.demo.model.entity.User;
 import com.example.demo.mapper.IUserMapper;
@@ -36,7 +37,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public TokenDto login(UserLoginDto userLoginDto) {
+    public UserTokenDto login(UserLoginDto userLoginDto) {
         User user = this.userRepositoryJpa.findByEmail(userLoginDto.getEmail()).orElseThrow(() ->
                 new RuntimeException("El email no se encuentra registrado"));
         try {
@@ -44,11 +45,13 @@ public class AuthServiceImpl implements IAuthService {
                     userLoginDto.getEmail(), userLoginDto.getPassword()
             ));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Contrasenna incorrecta");
+            throw new BadCredentialsException("Contraseña incorrecta");
         }
+
         String token = jwtService.generateToken(user);
-        return TokenDto.builder().
-                token(token).
-                build();
+        UserTokenDto userTokenDto = this.userMapper.toUserTokenDto(user);
+        userTokenDto.setToken(token);
+
+        return userTokenDto;
     }
 }

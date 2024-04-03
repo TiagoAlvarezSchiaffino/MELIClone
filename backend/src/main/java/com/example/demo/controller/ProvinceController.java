@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.province.ProvinceDto;
 import com.example.demo.service.IProvinceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,12 +18,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/provinces")
 @RequiredArgsConstructor
+@Tag(name = "Province", description = "Provincias de argentina")
 public class ProvinceController {
 
     private final IProvinceService provincesService;
 
 
     @GetMapping("")
+    @Operation(summary = "Provincia de Argentina ingresando el codigo postal.")
     public ResponseEntity<ProvinceDto> findByZipCode(@RequestParam(name = "zipcode") String zipCode) {
         return new ResponseEntity<>(provincesService.validZipCode(zipCode), HttpStatus.OK);
     }

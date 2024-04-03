@@ -1,5 +1,6 @@
 package com.example.demo.dto.user;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class UserLoginDto {
 
+    @Schema(example = "user@meli.com")
     private String email;
+    @Schema(example = "1234")
     private String password;
 }
