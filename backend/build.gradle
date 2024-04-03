@@ -28,7 +28,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
 	implementation group: 'com.paypal.sdk', name: 'rest-api-sdk', version: '1.4.1'
-    compileOnly group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    //    compileOnly 'javax.servlet:servlet-api:3.0-alpha-1'
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'

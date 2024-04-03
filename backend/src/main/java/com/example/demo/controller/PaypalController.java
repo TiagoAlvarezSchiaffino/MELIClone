@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
+
+import com.example.demo.dto.payment.PaymentDto;
+import com.example.demo.util.paypal.URLLocation;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-import com.example.demo.dto.payment.PaymentDto;
-import com.example.demo.util.paypal.URLLocation;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -16,15 +17,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/paypal")
+@RequestMapping("/api/v1/paypal")
+@RequiredArgsConstructor
 public class PaypalController {
-    @Autowired
-    private APIContext apiContext;
+    private final APIContext apiContext;
 
     @PostMapping("/pay")
-    public String paypalPay(HttpServletRequest req, @RequestBody PaymentDto paymentDto) {
+    public String paypalPay(jakarta.servlet.http.HttpServletRequest req, @RequestBody PaymentDto paymentDto) {
 
         // Payment amount - setCurrency - USD
         Amount amount = new Amount();
