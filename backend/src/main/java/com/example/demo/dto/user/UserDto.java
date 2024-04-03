@@ -1,5 +1,6 @@
 package com.example.demo.dto.user;
 
+import com.example.demo.model.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,4 +12,5 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String numberPhone;
+    private String role;
 }

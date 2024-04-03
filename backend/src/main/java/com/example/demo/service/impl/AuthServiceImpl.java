@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.config.jwt.JwtService;
 import com.example.demo.dto.token.TokenDto;
+import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserLoginDto;
 import com.example.demo.dto.user.UserRegisterDto;
 import com.example.demo.dto.user.UserTokenDto;
@@ -49,9 +50,10 @@ public class AuthServiceImpl implements IAuthService {
         }
 
         String token = jwtService.generateToken(user);
-        UserTokenDto userTokenDto = this.userMapper.toUserTokenDto(user);
-        userTokenDto.setToken(token);
-
-        return userTokenDto;
+        UserDto userDto = this.userMapper.toUserDto(user);
+        return UserTokenDto.builder()
+                .user(userDto)
+                .token(token)
+                .build();
     }
 }

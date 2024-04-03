@@ -16,6 +16,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserDto findByEmail(String email) {
+//        Optional<User> byEmail = this.userRepositoryJpa.findByEmail(email);
+
         return this.userRepositoryJpa.findByEmail(email)
                 .map(userMapper::toUserDto)
                 .orElseThrow(() -> new RuntimeException("El usuario no existe."));
@@ -23,6 +25,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserDto findById(Long userId) {
+//        Optional<User> byId = this.userRepositoryJpa.findById(userId);
         return this.userRepositoryJpa.findById(userId)
                 .map(this.userMapper::toUserDto)
                 .orElseThrow(()-> new RuntimeException("Id del usuario no existe."));
