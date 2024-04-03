@@ -4,6 +4,8 @@ import com.example.demo.dto.shippingMethod.ShippingMethodDto;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.entity.ShippingMethod;
 import com.example.demo.service.IShippingMethodService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/shippingMethods")
-@CrossOrigin(origins="**")
+@RequiredArgsConstructor
+@Tag(name = "ShippingMethod", description = "Shipping Method  of Purchase Order")
 
 public class ShippingMethodController  {
 
