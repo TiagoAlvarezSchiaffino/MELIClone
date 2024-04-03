@@ -4,8 +4,11 @@ import com.example.demo.dto.orderItem.OrderItemDto;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.IOrderItemMapper;
 import com.example.demo.model.entity.OrderItem;
+import com.example.demo.model.entity.Product;
 import com.example.demo.repository.IOrderItemRepository;
+import com.example.demo.repository.product_repository.ProductRepository;
 import com.example.demo.service.IOrderItemService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,9 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Autowired
     private IOrderItemMapper orderItemMapper;
+
+    @Autowired
+    private ProductRepository productRepository;
 
 
     @Override
@@ -36,12 +42,17 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
 
     @Override
-    public OrderItemDto post(OrderItem orderItem) {
+    @Transactional
+    public OrderItemDto post(OrderItem orderItem) throws ResourceNotFoundException {
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
+        // descontar stock
+        Product existingProduct =productRepository.findById(savedOrderItem.getProduct().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        existingProduct.setStock(existingProduct.getStock() - savedOrderItem.getQuantity());
+        productRepository.save(existingProduct);
+
         return orderItemMapper.toOrderItemDto(savedOrderItem);
     }
-
-
 
 
     @Override
