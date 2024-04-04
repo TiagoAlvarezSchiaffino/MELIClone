@@ -1,24 +1,17 @@
 package com.example.demo.dto.product;
 
-import com.example.demo.dto.orderItem.OrderItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class ProductsDTO {
     private String name;
     private double price;
     private Integer stock;
     private String description;
-    private CategoryDTO category;
-    private SubcategoryDTO subcategory;
-    private List<ImageDTO> images;
-    private List<OrderItemDto> orders;
 }

@@ -40,6 +40,10 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "SubCategory_id")
+    private Subcategory subcategory;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID")
     @Builder.Default
