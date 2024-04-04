@@ -2,6 +2,7 @@ package com.example.demo.util.apilanding.impl;
 
 import com.google.gson.stream.MalformedJsonException;
 import com.example.demo.dto.apilading.ResponseDto;
+import com.example.demo.exception.ZipCodeNotValidException;
 import com.example.demo.service.impl.ProvinceServiceImpl;
 import com.example.demo.util.APIFunctions;
 import com.example.demo.util.apilanding.ApiLanding;
@@ -33,20 +34,16 @@ public class ApiLandingExecuteImpl implements IApiLandingExecute {
         Map<String, Object> params = new HashMap<>();
         params.put("token-susc", apiLanding.getTokenSusc());
         params.put("token-api", apiLanding.getTokenApi());
-        params.put("postalcode", zipCode);
+        params.put("cpa", zipCode);
         return params;
     }
 
     @Override
     public ResponseDto executeValidZipCode(String zipCode) {
-        ResponseDto responseDto = new ResponseDto();
-        try {
-            responseDto = this.buildApiLanding().zipCodeProvince(this.params(zipCode));
-        } catch (MalformedJsonException e) {
-            logger.error(e.getMessage());
-        }
-        if (responseDto.getData().isEmpty()) {
-            throw new RuntimeException("No existe una provincia con el codigo ingresado.");
+        ResponseDto responseDto = this.buildApiLanding()
+                .zipCodeProvince(this.params(zipCode));
+        if (responseDto.getState() < 1) {
+            throw new ZipCodeNotValidException("No existe una provincia con el codigo ingresado.");
         }
         return responseDto;
     }
