@@ -1,6 +1,5 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.order.OrderDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserRegisterDto;
 import com.example.demo.dto.user.UserTokenDto;
@@ -14,10 +13,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface IUserMapper {
 
+
     @Mapping(target = "role", source = "role")
     UserDto toUserDto(User user);
 
-    
+
     @Mapping(target = "token", ignore = true)
     UserTokenDto toUserTokenDto(User user);
 
@@ -27,5 +27,5 @@ public interface IUserMapper {
     @Mapping(target = "addresses", ignore = true)
     @Mapping(target = "products", ignore = true)
     User toUser(UserRegisterDto userRegisterDto);
-    
+
 }

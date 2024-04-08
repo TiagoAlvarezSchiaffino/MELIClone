@@ -1,10 +1,7 @@
 package com.example.demo.mapper;
 
 
-import com.example.demo.dto.address.AddressDetailPostDto;
-import com.example.demo.dto.address.AddressListGetDto;
-import com.example.demo.dto.address.AddressPostDto;
-import com.example.demo.dto.address.AddressUpdatePostDto;
+import com.example.demo.dto.address.*;
 import com.example.demo.model.entity.Address;
 import org.mapstruct.*;
 
@@ -22,6 +19,14 @@ public interface IAddressMapper {
 
 
     AddressDetailPostDto toAddressDetailPostDto(Address address);
+
+
+    @Mappings({
+
+            @Mapping(target = "userId", source = "userFk")
+    }
+    )
+    AddressPostResponseDto tAddressPostResponseDto(Address address);
 
     List<AddressListGetDto> toAddressListGetDtos(List<Address> addresses);
 

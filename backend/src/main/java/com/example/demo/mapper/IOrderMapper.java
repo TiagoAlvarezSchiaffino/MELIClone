@@ -1,24 +1,20 @@
 package com.example.demo.mapper;
-import com.example.demo.model.entity.Order;
-import com.example.demo.dto.order.OrderDto;
-
+import com.example.demo.dto.orderStatus.OrderStatusDto;
+import com.example.demo.model.entity.OrderStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-
 import java.util.List;
 
+    @Mapper(componentModel = "spring", uses = {}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public interface IOrderStatusMapper {
+        IOrderStatusMapper INSTANCE = Mappers.getMapper(IOrderStatusMapper.class);
+        OrderStatusDto toOrderStatusDto(OrderStatus orderStatus);
 
-@Mapper(componentModel = "spring", uses = {IUserMapper.class, IOrderStatusMapper.class,IShippingMethodMapper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface IOrderMapper {
-    IOrderMapper INSTANCE = Mappers.getMapper(IOrderMapper.class);
-    OrderDto toOrderDto(Order order);
+        OrderStatus toOrderStatus(OrderStatusDto DTO);
 
-    Order toOrder(OrderDto DTO);
+        List<OrderStatusDto> toOrderStatusDTO(List<OrderStatus> orderStatus);
 
-    List<OrderDto> toOrderDTO(List<Order> orders);
-
-    List<Order> toOrders(List<OrderDto> ordersDTO);
-
-}
+        List<OrderStatus> toOrderStatus(List<OrderStatusDto> orderStatusDTO);
+    }
