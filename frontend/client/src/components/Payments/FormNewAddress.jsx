@@ -1,13 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdWork } from "react-icons/md";
 import { IoMdHome } from "react-icons/io";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { locationRequest } from "../../utils/LocationRequest";
+import Loader from "./Loader";
 
 const FormNewAdress = () => {
-  const navigate = useNavigate()
+  const [location, setLocation] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRequestFailed, setIsRequestFailed] = useState(false);
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -44,16 +50,37 @@ const FormNewAdress = () => {
     }),
     onSubmit: (values, { setErrors }) => {
       console.log(values);
-      navigate("/pay/pay-method")
+      navigate("/pay/pay-method");
     }
-  })
+  });
+
+  const getLocation = async event => {
+    if (event.target.value.length === 4) {
+      setIsLoading(true);
+
+      try {
+        const response = await locationRequest("/api/v1/provinces?zipcode=", event.target.value);
+        if (response) {
+          setIsLoading(false);
+          setLocation(response);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        setIsRequestFailed(true);
+      }
+    } else {
+      setIsRequestFailed(false);
+      setLocation({});
+    }
+  };
 
   useEffect(() => {
+    //Focus the input to fix the error when sending
     if (!formik.isSubmitting) return;
     if (Object.keys(formik.errors).length > 0) {
       document.getElementsByName(Object.keys(formik.errors)[0])[0].focus();
     }
-  }, [formik])
+  }, [formik]);
 
   return (
     <section className="mx-0 sm:mx-24 lg:ml-14 lg:mr-0 sm:mt-12 flex grow">
@@ -102,20 +129,35 @@ const FormNewAdress = () => {
                   formik.errors.zip_code !== undefined ? "text-red" : "text-black"
                 }`}
               >
-                Código Postal
+                Código Postal (Argentina)
               </label>
-              <input
-                type="number"
-                name="zip_code"
-                id="zip_code"
-                className={`w-full max-w-[323px] h-12 rounded-md border p-3 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:border-2 ${
-                  formik.errors.zip_code !== undefined
-                    ? "border-red focus:border-red"
-                    : "border-[#bfbfbf] focus:border-ligthblue"
-                }`}
-                onChange={formik.handleChange}
-                error={formik.errors.zip_code}
-              />
+              <div className="flex items-center gap-3 relative">
+                <input
+                  type="number"
+                  name="zip_code"
+                  id="zip_code"
+                  value={formik.values.zip_code}
+                  className={`w-full max-w-[323px] h-12 rounded-md border p-3 [&::-webkit-inner-spin-button]:appearance-none focus:outline-none focus:border-2 ${
+                    formik.errors.zip_code !== undefined
+                      ? "border-red focus:border-red"
+                      : "border-[#bfbfbf] focus:border-ligthblue"
+                  }`}
+                  onChange={event => {
+                    formik.handleChange(event);
+                    getLocation(event);
+                  }}
+                  error={formik.errors.zip_code}
+                />
+                {isLoading && <Loader size="w-5 h-5 border-2 border-grey" />}
+              </div>
+              {isRequestFailed && (
+                <div className="flex items-center absolute bottom-[-30px] left-1">
+                  <RiErrorWarningFill className="text-red" />
+                  <span className="text-xs text-[#0000008c] p-2 text-red">
+                    Error. Código postal inválido.
+                  </span>
+                </div>
+              )}
               {formik.errors.zip_code !== undefined && (
                 <div className="flex items-center absolute bottom-[-30px] left-1">
                   <RiErrorWarningFill className="text-red" />
@@ -135,39 +177,26 @@ const FormNewAdress = () => {
                   type="text"
                   name="state"
                   id="state"
+                  value={location.name || formik.values.state}
+                  placeholder="Provincia"
                   className="h-12 rounded-md border border-[#bfbfbf] p-3 border-dashed cursor-not-allowed"
                   disabled
                   onChange={formik.handleChange}
                 />
               </div>
               <div className="flex flex-col mb-8 w-full max-w-[323px] relative">
-                <label
-                  htmlFor="city"
-                  className={`text-sm ml-2 ${
-                    formik.errors.city !== undefined ? "text-red" : "text-black"
-                  }`}
-                >
+                <label htmlFor="city" className="text-sm ml-2">
                   Localidad o barrio
                 </label>
                 <input
                   type="text"
                   name="city"
                   id="city"
-                  className={`h-12 rounded-md border p-3 focus:outline-none focus:border-2 ${
-                    formik.errors.city !== undefined
-                      ? "border-red focus:border-red"
-                      : "border-[#bfbfbf] focus:border-ligthblue"
-                  }`}
+                  value={location.locality || formik.values.city}
+                  placeholder="Localidad"
+                  className="h-12 rounded-md border p-3 focus:outline-none focus:border-2"
                   onChange={formik.handleChange}
                 />
-                {formik.errors.city !== undefined && (
-                  <div className="flex items-center absolute bottom-[-30px] left-1">
-                    <RiErrorWarningFill className="text-red" />
-                    <span className="text-xs text-[#0000008c] p-2 text-red">
-                      {formik.errors.city}
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
 
