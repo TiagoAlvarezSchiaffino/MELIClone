@@ -1,44 +1,43 @@
 package com.example.demo.config;
 
-import com.example.demo.config.jwt.JwtAuthenticationFilter;
+import com.nocountry.backend.util.properties.PaypalProperties;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.OAuthTokenCredential;
+import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class PaypalConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
+
+    private final PaypalProperties paypalProperties;
+
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors()
-                .and()
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**",
-                "/api/v1/**"
-                ).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .build();
+    public Map<String, String> paypalSdkConfig() {
+        Map<String, String> sdkConfig = new HashMap<>();
+        sdkConfig.put("mode", paypalProperties.getMode());
+        return sdkConfig;
     }
+
+    @Bean
+    public OAuthTokenCredential authTokenCredential() {
+        return new OAuthTokenCredential(this.paypalProperties.getClient(), this.paypalProperties.getSecret(), paypalSdkConfig());
+    }
+
+    @Bean
+    public APIContext apiContext() throws PayPalRESTException {
+        @SuppressWarnings("deprecation")
+        APIContext apiContext = new APIContext(authTokenCredential().getAccessToken());
+        apiContext.setConfigurationMap(paypalSdkConfig());
+        return apiContext;
+    }
+
 }
