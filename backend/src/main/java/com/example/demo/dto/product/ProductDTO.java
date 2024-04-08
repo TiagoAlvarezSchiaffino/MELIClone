@@ -1,6 +1,9 @@
 package com.example.demo.dto.product;
 
-import com.example.demo.dto.orderItem.OrderItemDto;
+import com.example.demo.dto.brand.BrandDTO;
+import com.example.demo.dto.category.CategoryDto;
+import com.example.demo.dto.image.ImageDto;
+import com.example.demo.dto.subcategory.SubcategoryDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +15,19 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
-    private String name;
+public class ProductDto {
+    private Integer id;
+    private String title;
     private double price;
     private Integer stock;
     private String description;
-    private CategoryDTO category;
+    private Integer discount;
+    private double priceDiscount;
+    private Integer numberQuotas;
+    private Double priceQuotas;
+    private CategoryDto category;
     private SubcategoryDTO subcategory;
-    private List<ImageDTO> images;
-    private List<OrderItemDto> orders;
+    private BrandDTO brand;
+    private List<ImageDto> images;
+
 }
