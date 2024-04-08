@@ -6,16 +6,19 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { locationRequest } from "../../utils/LocationRequest";
-import { useSelector } from "react-redux";
 import { postRequest } from "../../services/httpRequest";
+import { userAddress } from "../../store/state/authSlice";
+import { useDispatch } from "react-redux";
+import { getLocalStorage } from "../../utils/LocalStorageFunctions";
 import Loader from "./Loader";
 
 const FormNewAdress = () => {
-  const [location, setLocation] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRequestFailed, setIsRequestFailed] = useState(false);
-  const { user } = useSelector(store => store.auth);
-  const navigate = useNavigate();
+  const [location, setLocation] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [isRequestFailed, setIsRequestFailed] = useState(false)
+  const localStorageData = getLocalStorage("auth")
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const formik = useFormik({
     initialValues: {
@@ -23,11 +26,11 @@ const FormNewAdress = () => {
       locality: "",
       street: "",
       number: "",
-      status: false,
+      status: true,
       residential: "",
       phone: "",
       comment: "",
-      user_id: user.id,
+      user_id: localStorageData.user.id,
       zip_code: "",
       province_id: 0,
       floor_apartment: "",
@@ -53,55 +56,74 @@ const FormNewAdress = () => {
         .max(12, "Ingresa un máximo de 12 caracteres")
     }),
     onSubmit: values => {
-      const zipCodeAsString = values.zip_code.toString();
-      const numberAsString = values.number.toString();
-      const phoneAsString = values.phone.toString();
-      const residentialAsBool = JSON.parse(values.residential);
+      const zipCodeAsString = values.zip_code.toString()
+      const numberAsString = values.number.toString()
+      const phoneAsString = values.phone.toString()
+      const residentialAsBool = JSON.parse(values.residential)
       let updatedValues = {
         ...values,
         zip_code: zipCodeAsString,
         number: numberAsString,
         phone: phoneAsString,
         residential: residentialAsBool,
-      };
-      console.log(updatedValues);
-      postRequest(updatedValues, "/api/v1/address");
-      navigate("/pay/pay-method");
+      }
+      postUserAddress(updatedValues);
+      console.log(updatedValues.number);
+      getUserAddress(updatedValues.user_id);
+      navigate("/pay/delivery-type")
     }
-  });
+  })
+
+  const postUserAddress = async (formValues) => {
+    try {
+      const response = await postRequest(formValues, "/api/v1/address")
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getUserAddress = async (userId) => {
+    try {
+      const response = await dispatch(userAddress(userId))
+      return response;
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getLocation = async event => {
-    if (event.target.value.length > 4) {
-      setIsLoading(true);
+    if (event.target.value.length === 4) {
+      setIsLoading(true)
 
       try {
         const response = await locationRequest("/api/v1/provinces?zipcode=", event.target.value);
         if (response) {
-          setIsLoading(false);
-          setLocation(response);
+          setIsLoading(false)
+          setLocation(response)
         }
       } catch (error) {
-        setIsLoading(false);
-        setIsRequestFailed(true);
+        setIsLoading(false)
+        setIsRequestFailed(true)
       }
     } else {
-      setIsRequestFailed(false);
-      setLocation({});
+      setIsRequestFailed(false)
+      setLocation({})
     }
-  };
+  }
 
   useEffect(() => {
     if (location.id !== undefined) {
-      formik.setFieldValue("province_id", location.id);
-      formik.setFieldValue("locality", location.locality);
+      formik.setFieldValue("province_id", location.id)
+      formik.setFieldValue("locality", location.locality)
     }
-    console.log(formik.errors)
     //Focus the input to fix the error when sending
     if (!formik.isSubmitting) return;
     if (Object.keys(formik.errors).length > 0) {
-      document.getElementsByName(Object.keys(formik.errors)[0])[0].focus();
+      document.getElementsByName(Object.keys(formik.errors)[0])[0].focus()
     }
-  }, [formik.errors, formik.isSubmitting, location]);
+  }, [formik.errors, formik.isSubmitting, location])
 
   return (
     <section className="mx-0 sm:mx-24 lg:ml-14 lg:mr-0 sm:mt-12 flex grow">

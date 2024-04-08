@@ -1,12 +1,14 @@
-import { useState } from "react"
-import { SlLocationPin } from "react-icons/sl"
-import useMediaQuery from "../../hooks/useMediaQuery"
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { SlLocationPin } from "react-icons/sl";
+import useMediaQuery from "../../hooks/useMediaQuery.js";
+import { useNavigate } from "react-router-dom";
+import { getLocalStorage } from "../../utils/LocalStorageFunctions.js";
 
 const DeliveryOptionPayment = () => {
   const navigate = useNavigate()
   const [selectedOption, setSelectedOption] = useState("")
-  const isMobile = useMediaQuery('(max-width: 640px')
+  const isMobile = useMediaQuery("(max-width: 640px)")
+  const localStorageData = getLocalStorage("auth")
 
   const handleFirstChoice = () => {
     setSelectedOption("home delivery")
@@ -18,10 +20,10 @@ const DeliveryOptionPayment = () => {
 
   return (
     <section className="bg-[#eeeeee] flex grow">
-      <div className="mx-10 sm:mx-24 lg:ml-24 lg:mr-0 font-medium text-[#504A4A] w-full max-w-[825px]">
-        {
-          !isMobile && <h2 className="mt-12 mb-4 text-xl">¿Cómo querés recibir o retirar tu compra?</h2>
-        }
+      <div className="mx-10 sm:mx-24 lg:ml-14 lg:mr-0 font-medium text-[#504A4A] w-full max-w-[825px]">
+        {!isMobile && (
+          <h2 className="mt-12 mb-4 text-xl">¿Cómo querés recibir o retirar tu compra?</h2>
+        )}
 
         <div>
           <div className="mb-6 mt-8 sm:mt-0">
@@ -34,10 +36,22 @@ const DeliveryOptionPayment = () => {
                 className="text-[#3483FA] border rounded-full border-none bg-white p-[0.3rem] hidden sm:block"
                 fontSize={28}
               />
-              <span className="text-xs">San Martín, Buenos Aires</span>
+              <span className="text-xs">
+                {
+                  localStorageData.user.address
+                  ? localStorageData.user.address.province.name
+                  : "Agregar domicilio"
+                }
+              </span>
             </div>
+
             <div className="mr-12 ml-5 sm:ml-0">
-              <span className="text-ligthblue text-xs cursor-pointer">Editar o elegir otro</span>
+              <span
+                className="text-ligthblue text-xs cursor-pointer"
+                onClick={() => navigate("/pay/home-delivery")}
+              >
+                Editar o elegir otro
+              </span>
             </div>
           </div>
         </div>
@@ -104,7 +118,7 @@ const DeliveryOptionPayment = () => {
 
         <div className="flex justify-center sm:justify-end mt-7 lg:mb-12">
           <button
-            onClick={() => navigate("/pay/home-delivery")}
+            onClick={() => navigate("/pay/pay-method")}
             className="w-[188px] h-[48px] text-white rounded-md bg-ligthblue"
           >
             Continuar
