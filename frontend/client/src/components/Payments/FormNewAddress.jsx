@@ -35,7 +35,8 @@ const FormNewAdress = () => {
       province_id: 0,
       floor_apartment: "",
       num_street_init: "",
-      num_street_end: ""
+      num_street_end: "",
+      no_number: false
     },
     validationSchema: Yup.object({
       contact: Yup.string().required("Completá este dato."),
@@ -44,8 +45,8 @@ const FormNewAdress = () => {
         .required("Completá este dato."),
       locality: Yup.string().required("Completá este dato."),
       street: Yup.string().required("Completá este dato."),
-      status: Yup.boolean(),
-      number: Yup.string().when("status", {
+      no_number: Yup.boolean(),
+      number: Yup.string().when("no_number", {
         is: false,
         then: () =>
           Yup.string().required("Completá este dato.").max(5, "Ingresa un máximo de 5 caracteres")
@@ -60,45 +61,40 @@ const FormNewAdress = () => {
       const numberAsString = values.number.toString()
       const phoneAsString = values.phone.toString()
       const residentialAsBool = JSON.parse(values.residential)
+
       let updatedValues = {
         ...values,
         zip_code: zipCodeAsString,
         number: numberAsString,
         phone: phoneAsString,
-        residential: residentialAsBool,
+        residential: residentialAsBool
       }
-      postUserAddress(updatedValues);
-      console.log(updatedValues.number);
-      getUserAddress(updatedValues.user_id);
-      navigate("/pay/delivery-type")
+      delete updatedValues.no_number
+
+      postUserAddress(updatedValues)
+      goToDeliveryType()
     }
   })
 
-  const postUserAddress = async (formValues) => {
-    try {
-      const response = await postRequest(formValues, "/api/v1/address")
-      console.log(response)
-      return response
-    } catch (error) {
-      console.log(error)
-    }
+  const goToDeliveryType = () => {
+    navigate("/pay/delivery-type")
   }
 
-  const getUserAddress = async (userId) => {
+  const postUserAddress = async formValues => {
     try {
-      const response = await dispatch(userAddress(userId))
-      return response;
+      const response = await postRequest(formValues, "/api/v1/address")
+      dispatch(userAddress(response))
     } catch (error) {
       console.log(error)
     }
-  }
+  };
 
   const getLocation = async event => {
     if (event.target.value.length === 4) {
       setIsLoading(true)
 
       try {
-        const response = await locationRequest("/api/v1/provinces?zipcode=", event.target.value);
+        const response = await locationRequest("/api/v1/provinces?zipcode=", event.target.value)
         if (response) {
           setIsLoading(false)
           setLocation(response)
@@ -111,7 +107,7 @@ const FormNewAdress = () => {
       setIsRequestFailed(false)
       setLocation({})
     }
-  }
+  };
 
   useEffect(() => {
     if (location.id !== undefined) {
@@ -119,7 +115,7 @@ const FormNewAdress = () => {
       formik.setFieldValue("locality", location.locality)
     }
     //Focus the input to fix the error when sending
-    if (!formik.isSubmitting) return;
+    if (!formik.isSubmitting) return
     if (Object.keys(formik.errors).length > 0) {
       document.getElementsByName(Object.keys(formik.errors)[0])[0].focus()
     }
@@ -129,8 +125,14 @@ const FormNewAdress = () => {
     <section className="mx-0 sm:mx-24 lg:ml-14 lg:mr-0 sm:mt-12 flex grow">
       <div className="w-full max-w-[752px] flex flex-col sm:justify-center">
         <h2 className="font-medium text-2xl hidden sm:block">Agregá un domicilio</h2>
+        <span
+          onClick={goToDeliveryType}
+          className="sm:mt-5 cursor-pointer font-medium hover:text-blue-500"
+        >
+          {"<"} Volver
+        </span>
         <form action="" onSubmit={formik.handleSubmit}>
-          <div className="bg-white rounded-md p-10 sm:mt-7">
+          <div className="bg-white rounded-md p-10 sm:mt-0">
             <div className="flex flex-col mb-2">
               <label
                 htmlFor="contact"
@@ -186,8 +188,8 @@ const FormNewAdress = () => {
                       : "border-[#bfbfbf] focus:border-ligthblue"
                   }`}
                   onChange={event => {
-                    formik.handleChange(event);
-                    getLocation(event);
+                    formik.handleChange(event)
+                    getLocation(event)
                   }}
                   error={formik.errors.zip_code}
                 />
@@ -293,19 +295,19 @@ const FormNewAdress = () => {
                       formik.errors.number !== undefined
                         ? "border-red focus:border-red"
                         : "border-[#bfbfbf] focus:border-ligthblue"
-                    } ${formik.values.status && "cursor-not-allowed"}`}
+                    } ${formik.values.no_number && "cursor-not-allowed"}`}
                     onChange={formik.handleChange}
-                    disabled={formik.values.status}
+                    disabled={formik.values.no_number}
                   />
                   <div className="absolute right-4 top-4 flex items-center gap-1">
                     <input
                       type="checkbox"
-                      name="status"
-                      id="status"
-                      checked={formik.values.status}
+                      name="no_number"
+                      id="no_number"
+                      checked={formik.values.no_number}
                       onChange={formik.handleChange}
                     />
-                    <label htmlFor="status" className="text-xs text-ligthblue">
+                    <label htmlFor="no_number" className="text-xs text-ligthblue">
                       Sin número
                     </label>
                   </div>

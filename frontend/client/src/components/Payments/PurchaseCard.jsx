@@ -5,7 +5,7 @@ const PurchaseCard = () => {
   return (
     <article className="font-normal border flex flex-col w-full max-w-[365px] bg-white rounded-lg h-[255px]">
       <div>
-        <h3 className="text-[16px] text-[#151515] font-medium p-4 pl-5">Pago $184.999</h3>
+        <h3 className="text-[16px] text-[#151515] font-medium p-4 pl-5">Pago $******</h3>
 
         <hr className="mb-2" />
 

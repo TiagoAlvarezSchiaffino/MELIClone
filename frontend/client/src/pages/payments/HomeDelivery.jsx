@@ -1,6 +1,6 @@
 import NavbarPayment from "../../components/Payments/NavbarPayment";
 import ProductDetailPayment from "../../components/Payments/ProductDetailPayment";
-import FormNewAdress from "../../components/Payments/FormNewAdress";
+import FormNewAddress from "../../components/Payments/FormNewAddress";
 
 const HomeDelivery = () => {
   return (
@@ -9,7 +9,7 @@ const HomeDelivery = () => {
         <NavbarPayment title={"Agregá un domicilio"} />
 
         <div className="flex justify-around gap-7 2xl:mx-32 flex-wrap">
-          <FormNewAdress />
+          <FormNewAddress />
           <ProductDetailPayment />
         </div>
       </section>

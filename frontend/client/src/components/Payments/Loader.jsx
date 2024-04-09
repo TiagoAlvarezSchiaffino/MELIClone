@@ -2,7 +2,7 @@ import payment from "../../assets/img/logo-payment.png";
 import useMediaQuery from "../../hooks/useMediaQuery.js";
 
 const Loader = ({ styles }) => {
-  const isMobile = useMediaQuery("(max-width: 441px)");
+  const isMobile = useMediaQuery("(max-width: 441px)")
 
   return (
     <div
