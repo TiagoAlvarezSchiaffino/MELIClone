@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.config.jwt.JwtService;
-import com.example.demo.dto.token.TokenDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.dto.user.UserLoginDto;
 import com.example.demo.dto.user.UserRegisterDto;
 import com.example.demo.dto.user.UserTokenDto;
-import com.example.demo.model.enums.Role;
+import com.example.demo.model.enums.RoleEnum;
 import com.example.demo.model.entity.User;
 import com.example.demo.mapper.IUserMapper;
 import com.example.demo.repository.IUserRepositoryJpa;
@@ -33,7 +32,7 @@ public class AuthServiceImpl implements IAuthService {
     public void register(UserRegisterDto userRegisterDto) {
         User user = this.userMapper.toUser(userRegisterDto);
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(RoleEnum.USER);
         this.userRepositoryJpa.save(user);
     }
 
@@ -46,7 +45,7 @@ public class AuthServiceImpl implements IAuthService {
                     userLoginDto.getEmail(), userLoginDto.getPassword()
             ));
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Contraseña incorrecta");
+            throw new BadCredentialsException("Contrasenna incorrecta");
         }
 
         String token = jwtService.generateToken(user);
