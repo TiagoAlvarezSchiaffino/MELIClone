@@ -1,21 +1,29 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.product.ProductDTO;
+import com.example.demo.dto.product.ProductDetailGetDto;
+import com.example.demo.dto.product.ProductDto;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.entity.Product;
+import com.example.demo.dto.product.ProductListGetDto;
 
 import java.util.List;
 
 public interface IProductService {
-    List<ProductDTO> getAll();
-    ProductDTO getById(int id) throws ResourceNotFoundException;
+    List<ProductDto> getAll();
 
-    ProductDTO post(Product product);
+    ProductDto getById(int id) throws ResourceNotFoundException;
 
-    ProductDTO patch(int id,Product product) throws ResourceNotFoundException;
+    ProductDto post(Product product);
 
-    ProductDTO delete(int id) throws ResourceNotFoundException;
+    ProductDto patch(int id, Product product) throws ResourceNotFoundException;
 
-    List<ProductDTO> getByUser(int id);
+    ProductDto delete(int id) throws ResourceNotFoundException;
+
+    List<ProductDto> getByUser(int id);
+
+
+    List<ProductListGetDto> findAllProduct();
+
+    ProductDetailGetDto findProductById(Integer productId);
 
 }

@@ -1,4 +1,4 @@
-package com.example.demo.backend.service;
+package com.example.demo.service;
 
 import com.example.demo.dto.orderItem.OrderItemDto;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -16,7 +16,7 @@ public interface IOrderItemService {
     OrderItemDto patch(int id,OrderItem orderItem) throws ResourceNotFoundException;
 
     OrderItemDto delete(int id) throws ResourceNotFoundException;
-    List<OrderItemDto>getItemsByOrder(int id);
+    /*List<OrderItemDto>getItemsByOrder(int id);
     List<OrderItemDto>getItemsByProduct(int id);
-
+*/
 }
