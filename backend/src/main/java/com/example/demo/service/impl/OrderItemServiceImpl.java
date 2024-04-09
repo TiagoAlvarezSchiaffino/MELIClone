@@ -4,9 +4,8 @@ import com.example.demo.dto.orderItem.OrderItemDto;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.IOrderItemMapper;
 import com.example.demo.model.entity.OrderItem;
-import com.example.demo.model.entity.Product;
 import com.example.demo.repository.IOrderItemRepository;
-import com.example.demo.repository.product_repository.ProductRepository;
+import com.example.demo.repository.IProductRepository;
 import com.example.demo.service.IOrderItemService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class OrderItemServiceImpl implements IOrderItemService {
     private IOrderItemMapper orderItemMapper;
 
     @Autowired
-    private ProductRepository productRepository;
+    private IProductRepository productRepository;
 
 
     @Override
@@ -46,11 +45,11 @@ public class OrderItemServiceImpl implements IOrderItemService {
     public OrderItemDto post(OrderItem orderItem) throws ResourceNotFoundException {
         OrderItem savedOrderItem = orderItemRepository.save(orderItem);
         // descontar stock
-        Product existingProduct =productRepository.findById(savedOrderItem.getProduct().getId())
+      /*  Product existingProduct =productRepository.findById(savedOrderItem.getProduct().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         existingProduct.setStock(existingProduct.getStock() - savedOrderItem.getQuantity());
         productRepository.save(existingProduct);
-
+*/
         return orderItemMapper.toOrderItemDto(savedOrderItem);
     }
 
@@ -59,17 +58,19 @@ public class OrderItemServiceImpl implements IOrderItemService {
     public OrderItemDto patch(int id, OrderItem orderItem) throws ResourceNotFoundException {
         OrderItem existingOrderItem = orderItemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OrderItem with id " + id + " not found"));
-        if (orderItem.getOrder() != null) {
+        /*if (orderItem.getOrder() != null) {
             existingOrderItem.setOrder(orderItem.getOrder());
-        }
-        if (orderItem.getProduct() != null) {
+        }*/
+  /*      if (orderItem.getProduct() != null) {
             existingOrderItem.setProduct(orderItem.getProduct());
         }
-
+    */
         existingOrderItem.setQuantity(orderItem.getQuantity());
         OrderItem updatedOrderItem = orderItemRepository.save(existingOrderItem);
+
         return orderItemMapper.toOrderItemDto(updatedOrderItem);
     }
+
 
     @Override
     public OrderItemDto delete(int id) throws ResourceNotFoundException {
@@ -79,7 +80,7 @@ public class OrderItemServiceImpl implements IOrderItemService {
         return orderItemMapper.toOrderItemDto(orderItemToDelete);
     }
 
-    @Override
+   /* @Override
     public List<OrderItemDto> getItemsByProduct(int id) {
         return orderItemMapper.toOrderItemsDTO
                 (orderItemRepository.findByProduct_id(id));
@@ -91,5 +92,5 @@ public class OrderItemServiceImpl implements IOrderItemService {
          return orderItemMapper.toOrderItemsDTO
                 (orderItemRepository.findByOrder_id(id));
     }
-
+*/
 }
