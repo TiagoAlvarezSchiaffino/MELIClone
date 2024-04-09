@@ -50,10 +50,10 @@ const MenuMobile = () => {
         name: "Salir",
         icon: <BiExit size={25} className="opacity-60 cursor-pointer" />,
         action: () => {
-          dispatch(setLogout())
+          dispatch(setLogout());
         }
       }
-    ]
+    ];
 
     const menuNotLogged = [
       {
@@ -62,13 +62,16 @@ const MenuMobile = () => {
       },
       {
         name: "Creá tu cuenta",
-        icon: <BsPersonAdd size={25} className="opacity-60 cursor-pointer" />
+        icon: <BsPersonAdd size={25} className="opacity-60 cursor-pointer" />,
+        action: () => {
+          navigate("/auth/register");
+        }
       },
       {
         name: "Ingresá",
         icon: <BiLogIn size={25} className="opacity-60 cursor-pointer" />,
         action: () => {
-          navigate("/auth/login")
+          navigate("/auth/login");
         }
       },
       { name: "Ofertas", icon: <CiDiscount1 size={25} className="opacity-60 cursor-pointer" /> },
@@ -76,7 +79,7 @@ const MenuMobile = () => {
         name: "Ayuda",
         icon: <TfiHeadphoneAlt size={25} className="opacity-60 cursor-pointer" />
       }
-    ]
+    ];
 
     if (token) return menuUserLogged
 

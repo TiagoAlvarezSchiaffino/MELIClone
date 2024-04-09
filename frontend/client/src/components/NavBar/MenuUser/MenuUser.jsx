@@ -43,7 +43,7 @@ const MenuUser = ({ firstname }) => {
         dispatch(setLogout())
       }
     }
-  ]
+  ];
 
   return (
     <div className="w-[19rem] h-auto bg-white py-2 absolute z-10 top-10 left-[-120px] shadow-xl">
