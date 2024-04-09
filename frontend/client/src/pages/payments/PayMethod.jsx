@@ -8,7 +8,7 @@ import ProductDetailPayment from "../../components/Payments/ProductDetailPayment
 import { useNavigate } from "react-router-dom";
 
 const PayMethod = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <>

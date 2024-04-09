@@ -5,15 +5,15 @@ import PurchaseCard from "../../components/Payments/PurchaseCard";
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 const Purchases = () => {
-  const isMobile = useMediaQuery("(max-width: 640px)");
-  const [isLoading, setIsLoading] = useState(true);
+  const isMobile = useMediaQuery("(max-width: 640px)")
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Simulation of an asynchronous task
     setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }, []);
+      setIsLoading(false)
+    }, 3000)
+  }, [])
 
   return (
     <>
@@ -29,22 +29,22 @@ const Purchases = () => {
               <section className="bg-green w-full h-[150px] flex items-center justify-center">
                 <div>
                   <p className="text-white font-medium text-2xl">
-                Pagá $****** en Pago Fácil para reservar tu compra
-              </p>
-            </div>
-          </section>
-        </>
-      ) : (
-        <section className="bg-green w-full h-[110px] flex items-center justify-center">
-          <div className="p-12">
-            <p className="text-white font-medium text-xl">
-              Pagá $****** en Pago Fácil para reservar tu compra
-            </p>
-          </div>
-        </section>
-      )}
+                    Pagá $****** en Pago Fácil para reservar tu compra
+                  </p>
+                </div>
+              </section>
+            </>
+          ) : (
+            <section className="bg-green w-full h-[110px] flex items-center justify-center">
+              <div className="p-12">
+                <p className="text-white font-medium text-xl">
+                  Pagá $****** en Pago Fácil para reservar tu compra
+                </p>
+              </div>
+            </section>
+          )}
 
-      <section className="bg-[#eeeeee] h-[100vh]">
+          <section className="bg-[#eeeeee] h-[100vh]">
             <div className="flex justify-center items-center pt-11">
               <PurchaseCard />
             </div>
