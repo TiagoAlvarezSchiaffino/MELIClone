@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,12 +25,16 @@ public class Address {
     private String zipCode;
     private String locality;
     private String street;
+    private String number;
+
     @Column(name = "STREET_NUMBER")
     private String streetNumber;
     @Column(name = "FLOOR_APARTMENT")
+
     private String floorApartment;
     @Column(name = "NUM_STREET_INIT")
     private String numStreetInit;
+
     @Column(name = "NUM_STREET_END")
     private String numStreetEnd;
     private Boolean status;
@@ -56,5 +62,6 @@ public class Address {
             updatable = false)
     private Province province;
 
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shippingAddress")
+    List<Order> orders;
 }
