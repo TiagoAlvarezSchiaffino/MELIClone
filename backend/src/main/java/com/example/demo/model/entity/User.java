@@ -1,13 +1,12 @@
 package com.example.demo.model.entity;
 
-import com.example.demo.model.enums.Role;
+import com.example.demo.model.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,7 +40,18 @@ public class User implements UserDetails {
 
     @Column(length = 32, columnDefinition = "varchar(32) default 'USER'")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private RoleEnum role;
+
+    public boolean isRoleTienda() {
+        return role == RoleEnum.VENDOR;
+    }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Product> products;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    List<Order> orders;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     List<Address> addresses;
