@@ -44,7 +44,7 @@ public class ProvinceServiceImpl implements IProvinceService {
         DataDto dataDto = data.get(0);
         ProvinceDto byName = this.findByName(dataDto.getProvince());
         byName.setLocality(dataDto.getLocality().charAt(0)
-        + dataDto.getLocality().substring(1).toLowerCase());
+                + dataDto.getLocality().substring(1).toLowerCase());
         return byName;
     }
 
