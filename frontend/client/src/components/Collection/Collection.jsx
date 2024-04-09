@@ -97,14 +97,14 @@ const listProd = {
       ]
     }
   ]
-};
+}
 
 const Collection = () => {
-  const [selectedOption, setSelectedOption] = useState("Novedades");
+  const [selectedOption, setSelectedOption] = useState("Novedades")
 
   const handleSelectChange = event => {
-    setSelectedOption(event.target.value);
-  };
+    setSelectedOption(event.target.value)
+  }
   return (
     <div className="flex flex-col">
       <div className="flex justify-center sm:justify-normal text-xl p-2 gap-2">
@@ -120,7 +120,7 @@ const Collection = () => {
               <option key={cat.id} value={cat.name}>
                 {cat.name}
               </option>
-            );
+            )
           })}
         </select>
       </div>
@@ -148,12 +148,12 @@ const Collection = () => {
                 >
                   <img src={prod.img} alt={prod.title} className="w-full sm:w-46" />
                 </div>
-              );
+              )
             })}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Collection;
+export default Collection
