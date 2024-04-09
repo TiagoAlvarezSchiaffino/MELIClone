@@ -4,6 +4,7 @@ import {
   clearLocalStorage,
   setLocalStorage
 } from "../../utils/LocalStorageFunctions.js";
+import { getRequest, postRequest } from "../../services/httpRequest.js";
 
 export const initialAuth = {
   token: "",
@@ -12,7 +13,8 @@ export const initialAuth = {
     name: "",
     lastname: "",
     email: "",
-    role: ""
+    role: "",
+    address: null
   }
 };
 
@@ -22,21 +24,64 @@ export const authSlice = createSlice({
 
   reducers: {
     setLogin: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-    },
-    setPosition: (state, action) => {
-      const auth = getLocalStorage("auth");
-      setLocalStorage("auth", { ...auth, position: action.payload });
-      state.position = action.payload;
+      state.user = action.payload.user
+      state.token = action.payload.token
     },
     setLogout: () => {
-      clearLocalStorage("auth");
-      return initialAuth;
+      clearLocalStorage("auth")
+      return initialAuth
+    },
+    setUserAddress: (state, action) => {
+      state.user.address = action.payload
     }
   }
 })
 
-export const { setLogin, setPosition, setLogout } = authSlice.actions;
+export const { setLogin, setPosition, setLogout, setUserAddress } = authSlice.actions
 
 export default authSlice.reducer
+
+export const loginUser = dataLogin => async dispatch => {
+  try {
+    const auth = await postRequest(dataLogin, "/api/v1/auth/login")
+    if (auth.token !== "") {
+      dispatch(setLogin(auth))
+      const authInStorage = { token: auth.token, user: auth.user }
+      setLocalStorage("auth", authInStorage)
+      dispatch(getUserAddress(auth.user.id))
+      return { login: true, msg: "Usuario logeado con éxito!" }
+    }
+    return { login: false }
+  } catch (error) {
+    const msgError = error
+    return { login: false, msg: msgError.toString() }
+  }
+}
+
+export const userAddress = obj => async dispatch => {
+  try {
+    if (obj) {
+      dispatch(setUserAddress(obj));
+      const localStorageData = getLocalStorage("auth")
+
+      const addressInStorage = { ...localStorageData.user.address, ...obj }
+      localStorageData.user.address = addressInStorage
+
+      setLocalStorage("auth", localStorageData)
+      return { address: true, msg: "Domicilio guardado en local storage" }
+    }
+    return null
+  } catch (error) {
+    const msgError = error
+    return { address: null, msg: msgError.toString() }
+  }
+}
+
+export const getUserAddress = idUser => async dispatch => {
+  try {
+    const response = await getRequest(`/api/v1/address/user/active/${idUser}`)
+    dispatch(userAddress(response))
+  } catch (error) {
+    console.log(error)
+  }
+}
