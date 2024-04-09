@@ -5,14 +5,14 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 
-import style from "./Slider.module.css";
+import style from "./slider.module.css";
 
 import { Grid, Pagination } from "swiper";
 
 import { TiChevronRight } from "react-icons/ti";
 import { TiChevronLeft } from "react-icons/ti";
-import getCard from "../../utils/card.json";
-import PopularCategories from "../PopularCategories/PopularCategories.jsx";
+import { listIcons } from "../../utils/listIcons";
+import PopularCategories from "../PopularCategorie/PopularCategories.jsx";
 
 const SliderIcon = () => {
   const [isHovered, setIsHovered] = useState(false)
@@ -64,10 +64,10 @@ const SliderIcon = () => {
         modules={[Grid, Pagination]}
         className="relative"
       >
-        {getCard.map((card, index) => (
+        {listIcons.map(card => (
           <SwiperSlide
             onMouseOver={handleMouseOver}
-            key={`${index}-card`}
+            key={`${card.id}-card`}
             className={style.swiperSlide}
           >
             <PopularCategories card={card} />
@@ -109,7 +109,7 @@ const SlideNextButton = () => {
 }
 
 const SlidePrevButton = () => {
-  const swiper = useSwiper();
+  const swiper = useSwiper()
 
   return (
     <button

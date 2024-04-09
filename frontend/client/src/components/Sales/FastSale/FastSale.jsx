@@ -1,5 +1,5 @@
 import React from "react";
-import gaiming from "../../../assets/icons/gaiming.svg";
+import gaming from "../../../assets/icons/gaming.svg";
 import bicycle from "../../../assets/icons/bicycle.svg";
 import monopoly from "../../../assets/icons/monopoly.svg";
 import coffe from "../../../assets/icons/coffe.svg";
@@ -7,12 +7,11 @@ import vino from "../../../assets/icons/vino.svg";
 import contruction from "../../../assets/icons/contruction.svg";
 import colchon from "../../../assets/icons/colchon.svg";
 import bocinas from "../../../assets/icons/bocinas.svg";
-
 const listIcons = [
   {
     id: 1,
     name: "GAMING",
-    icon: gaiming
+    icon: gaming
   },
   {
     id: 2,
@@ -49,8 +48,7 @@ const listIcons = [
     name: "AUDIO",
     icon: bocinas
   }
-]
-
+];
 const FastSale = () => {
   return (
     <div className="flex flex-wrap gap-12 justify-center">
