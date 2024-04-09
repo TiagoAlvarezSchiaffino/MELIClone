@@ -5,14 +5,14 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 
-import style from "./slider.module.css";
+import style from "./Slider.module.css";
 
 import { Grid, Pagination } from "swiper";
 
 import { TiChevronRight } from "react-icons/ti";
 import { TiChevronLeft } from "react-icons/ti";
 import { listIcons } from "../../utils/listIcons";
-import PopularCategories from "../PopularCategorie/PopularCategories.jsx";
+import PopularCategories from "../PopularCategories/PopularCategories.jsx";
 
 const SliderIcon = () => {
   const [isHovered, setIsHovered] = useState(false)
