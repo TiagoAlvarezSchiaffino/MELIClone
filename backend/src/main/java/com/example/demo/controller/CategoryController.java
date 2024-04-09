@@ -1,11 +1,11 @@
-package com.example.demo.controller.productController;
+package com.example.demo.controller;
 
-import com.example.demo.dto.product.CategoryDTO;
-import com.example.demo.dto.product.CategoryForSubcategoryDTO;
-import com.example.demo.dto.product.SubcategoryDTO;
+import com.example.demo.dto.category.CategoryDto;
+import com.example.demo.dto.category.CategoryForSubcategoryDTO;
+import com.example.demo.dto.subcategory.SubcategoryDTO;
 import com.example.demo.model.entity.Category;
-import com.nocountry.backend.model.entity.Subcategory;
-import com.example.demo.repository.product_repository.CategoryRepository;
+import com.example.demo.repository.ICategoryRepository;
+import com.example.demo.model.entity.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +20,22 @@ import java.util.stream.Collectors;
 public class CategoryController {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private ICategoryRepository categoryRepository;
 
-        //todo All Categories
 
-        @GetMapping("/all")
-        public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+    //todo All Categories***********************************************
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        List<CategoryDTO> categoryDTOs = new ArrayList<>();
+        List<CategoryDto> categoryDTOs = new ArrayList<>();
 
         for (Category category : categories) {
-            CategoryDTO categoryDTO = new CategoryDTO();
+            CategoryDto categoryDTO = new CategoryDto();
             categoryDTO.setId(category.getId());
             categoryDTO.setName(category.getName());
 
@@ -83,9 +84,9 @@ public class CategoryController {
         return ResponseEntity.ok(categoryDTOs);
     }
 
-        //todo Create category
+    //todo Create category***********************************************
 
-        @PostMapping
+    @PostMapping
     public ResponseEntity<String> saveCategory(@RequestBody Category category) {
         Category savedCategory = categoryRepository.save(category);
         if (savedCategory != null) {

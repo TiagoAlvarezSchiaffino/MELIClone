@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.product.CategoryDTO;
-import com.example.demo.dto.product.ImageDTO;
-import com.example.demo.dto.product.ProductDTO;
+import com.example.demo.dto.category.CategoryDto;
+import com.example.demo.dto.image.ImageDto;
+import com.example.demo.dto.product.ProductDto;
 import com.example.demo.dto.user.UserDto;
 import com.example.demo.model.entity.Image;
 import com.example.demo.model.entity.Product;
@@ -50,16 +50,16 @@ public class UserController {
         List<Product> products = user.getProducts();
 
         // Crear una lista de ProductDTO para almacenar la información de los productos
-        List<ProductDTO> productDTOs = new ArrayList<>();
+        List<ProductDto> productDtos = new ArrayList<>();
 
         // Iterar sobre los productos y crear los objetos ProductDTO
         for (Product product : products) {
-            ProductDTO productDTO = new ProductDTO().builder()
-                    .name(product.getName())
+            ProductDto productDTO = new ProductDto().builder()
+                    .title(product.getTitle())
                     .price(product.getPrice())
                     .stock(product.getStock())
-                    .description(product.getDescription())
-                    .category(CategoryDTO.builder()
+//                    .description(product.getDescription())
+                    .category(CategoryDto.builder()
                             .id(product.getCategory().getId())
                             .name(product.getCategory().getName())
                             .build())
@@ -71,8 +71,8 @@ public class UserController {
 
             // Iterar sobre las imágenes y crear los objetos ImageDTO
             for (Image image : images) {
-                ImageDTO imageDTO = ImageDTO.builder()
-                        .url(image.getUrl())
+                ImageDto imageDTO = ImageDto.builder()
+                        .imageUrl(image.getImageUrl())
                         .build();
 
                 // Agregar el ImageDTO a la lista de imágenes del ProductDTO
@@ -81,11 +81,11 @@ public class UserController {
                 // ...
             }
             // Agregar el ProductDTO a la lista
-            productDTOs.add(productDTO);
+            productDtos.add(productDTO);
         }
 
         // Devolver la lista de ProductDTO como respuesta
-        return ResponseEntity.ok(productDTOs);
+        return ResponseEntity.ok(productDtos);
     }
 
 }

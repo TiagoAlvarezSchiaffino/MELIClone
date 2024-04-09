@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.order.OrderDto;
+import com.example.demo.dto.address.AddressPostDto;
+import com.example.demo.dto.address.AddressUpdatePostDto;
+import com.example.demo.dto.order.OrderDetailPostDto;
+import com.example.demo.dto.order.OrderListGetDto;
+import com.example.demo.dto.order.OrderPostDto;
+import com.example.demo.dto.order.OrderUpdatePostDto;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.entity.Order;
 import com.example.demo.service.IOrderService;
@@ -25,9 +30,9 @@ public class OrderController  {
     IOrderService orderService;
 
     @GetMapping()
-    public ResponseEntity<List<OrderDto>> getAll() {
+    public ResponseEntity<List<OrderListGetDto>> getAll() {
         try {
-            List<OrderDto> response = orderService.getAll();
+            List<OrderListGetDto> response = orderService.getAll();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -35,25 +40,28 @@ public class OrderController  {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> getById(@PathVariable int id) throws ResourceNotFoundException {
-        OrderDto response = orderService.getById(id);
+    public ResponseEntity<OrderListGetDto> getById(@PathVariable Long id) throws ResourceNotFoundException {
+        OrderListGetDto response = orderService.getById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<OrderDto> postOrder(@RequestBody Order order) {
-        OrderDto createdOrder = orderService.post(order);
+    public ResponseEntity<OrderPostDto> postOrder(@RequestBody OrderPostDto order) {
+     OrderPostDto createdOrder = orderService.post(order);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+//        return new ResponseEntity<>(orderService.save(order), HttpStatus.CREATED);
+
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<OrderDto> patchOrder(@PathVariable int id, @RequestBody Order order) throws ResourceNotFoundException {
-        OrderDto updatedOrder = orderService.patch(id, order);
-        return ResponseEntity.ok(updatedOrder);
+    public ResponseEntity<OrderListGetDto> patchOrder(@PathVariable Long id, @RequestBody OrderUpdatePostDto orderUpdatePostDto) throws ResourceNotFoundException {
+        OrderListGetDto updatedOrder = orderService.patch(id, orderUpdatePostDto);
+
+        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable int id) throws ResourceNotFoundException {
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) throws ResourceNotFoundException {
         orderService.delete(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body("Order deleted");
@@ -61,11 +69,9 @@ public class OrderController  {
 
     @GetMapping("/user/{id}")
     @Operation(summary = "Ordenes por usuario, se envia el ID del usuario.")
-    public ResponseEntity<List<OrderDto>> getByUser(@PathVariable int id) {
-        List<OrderDto> orders = orderService.getByUser(id);
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<OrderListGetDto>> getByUser(@PathVariable Long id) {
         try {
-            List<OrderDto> response = orderService.getByUser(id);
+            List<OrderListGetDto> response = orderService.getByUser(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

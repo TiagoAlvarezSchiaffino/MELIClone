@@ -30,9 +30,9 @@ public class AuthController {
     private ResponseEntity<MessageDto> register(@RequestBody UserRegisterDto userRegisterDto) {
         authService.register(userRegisterDto);
         MessageDto messageDto = MessageDto.builder()
-            .message("Usuario registrado.")
-            .code(HttpStatus.CREATED.value())
-            .build();
+                .message("Usuario registrado.")
+                .code(HttpStatus.CREATED.value())
+                .build();
         return new ResponseEntity<>(messageDto, HttpStatus.CREATED);
     }
 
