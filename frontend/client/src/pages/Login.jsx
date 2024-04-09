@@ -1,22 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import LoginNavbar from "../components/Login/LoginNavbar";
 import LoginFooter from "../components/Login/LoginFooter";
 import ReportProblem from "../components/Login/ReportProblem";
 import account from "../assets/icons/account.png";
-import { postRequestLogin } from "../services/httpRequest";
 import { useDispatch } from "react-redux";
-import { setLogin } from "../store/state/authSlice";
-import { setLocalStorage } from "../utils/LocalStorageFunctions";
+import { loginUser } from "../store/state/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isUser, setIsUser] = useState(false)
   const [email, setEmail] = useState("")
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -24,25 +24,15 @@ const Login = () => {
       password: ""
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("El Email ser un formato valido").required("Es requerido")
+      email: Yup.string()
+        .email("El e-mail debe ser un formato valido.")
+        .required("Completá este dato.")
     }),
     onSubmit: (values, { setErrors }) => {
       setEmail(values.email)
       setIsUser(true)
       if (values.password) {
-        setIsLoading(true)
-        postRequestLogin(values, "/auth/login")
-          .then(res => {
-            dispatch(setLogin({ token: res.token, user: res.user }))
-            const authInStorage = { token: res.token, user: res.user }
-            setLocalStorage("auth", authInStorage)
-            setIsLoading(false)
-          })
-          .catch(err => {
-            alert("Credenciales Invalidas")
-            setIsLoading(false)
-            console.log(err)
-          })
+        userLogin()
       }
     }
   })
@@ -50,6 +40,15 @@ const Login = () => {
   useEffect(() => {
     setIsEmailValid(formik.errors.email ? true : false)
   }, [formik.errors.email])
+
+  const userLogin = async () => {
+    setIsLoading(true)
+    const isLogin = await dispatch(loginUser(formik.values))
+    if (!isLogin.login) {
+      setIsLoading(false)
+    }
+    setIsLoading(false)
+  }
 
   const changeAcount = () => {
     setEmail("")
@@ -161,7 +160,10 @@ const Login = () => {
                         }`}
                         disabled={isEmailValid}
                       />
-                      <button className="w-full lg:w-[119px] h-[48px] text-ligthblue text-[15px] rounded-md bg-transparent font-medium">
+                      <button
+                        className="w-full lg:w-[119px] h-[48px] text-ligthblue text-[15px] rounded-md bg-transparent font-medium"
+                        onClick={() => navigate("/auth/register")}
+                      >
                         Crear Cuenta
                       </button>
                     </div>
