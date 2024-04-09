@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserLoginDto {
-
     @Schema(example = "user@meli.com")
     private String email;
     @Schema(example = "1234")

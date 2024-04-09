@@ -1,34 +1,32 @@
 package com.example.demo.dto.order;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.example.demo.dto.address.AddressDetailPostDto;
-import com.example.demo.dto.orderItem.OrderItemDto;
 import com.example.demo.dto.orderStatus.OrderStatusDto;
 import com.example.demo.dto.shippingMethod.ShippingMethodDto;
-import com.example.demo.dto.user.UserRegisterDto;
-import com.example.demo.model.entity.UserReview;
-import lombok.*;
+import com.example.demo.dto.user.UserDto;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
-import java.util.Set;
 
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderDto {
+public class OrderListGetDto {
 
-    private int id;
-    @SerializedName("fecha")
+    @JsonProperty("order_id")
+    private  Long id;
+
+    @SerializedName("Date")
     private Date date;
-
-    private UserRegisterDto user;
+    private UserDto user;
     private AddressDetailPostDto shippingAddress;
+
+    @JsonProperty("order_total")
     private double orderTotal;
     private ShippingMethodDto shippingMethod;
     private OrderStatusDto orderStatus;
-    private Set<OrderItemDto> items;
-    private Set<UserReview> reviews;
-    
+
 }
